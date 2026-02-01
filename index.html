@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎹</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample Vault - Premium Audio Samples</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --neon-green: #39FF14;
+        --neon-orange: #FF6B35;
+        --neon-cyan: #00FFF7;
+        --surface-dark: #0A0A0B;
+        --surface-mid: #141416;
+        --surface-light: #1E1E22;
+        --border-color: #2A2A2E;
+      }
+      
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--neon-green) var(--surface-dark);
+      }
+      
+      body {
+        font-family: 'Outfit', sans-serif;
+        background: var(--surface-dark);
+        background-image: 
+          radial-gradient(ellipse at 20% 20%, rgba(57, 255, 20, 0.03) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 80%, rgba(255, 107, 53, 0.03) 0%, transparent 50%);
+        min-height: 100vh;
+      }
+      
+      .font-mono {
+        font-family: 'Space Mono', monospace;
+      }
+      
+      .glow-green {
+        box-shadow: 0 0 20px rgba(57, 255, 20, 0.3), inset 0 0 20px rgba(57, 255, 20, 0.1);
+      }
+      
+      .glow-orange {
+        box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+      }
+      
+      .text-glow {
+        text-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+      }
+      
+      .hardware-button {
+        background: linear-gradient(145deg, #1a1a1e, #0d0d0f);
+        border: 1px solid #2a2a2e;
+        box-shadow: 
+          4px 4px 8px rgba(0, 0, 0, 0.5),
+          -2px -2px 4px rgba(255, 255, 255, 0.02),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        transition: all 0.1s ease;
+      }
+      
+      .hardware-button:active {
+        transform: translateY(2px);
+        box-shadow: 
+          2px 2px 4px rgba(0, 0, 0, 0.5),
+          inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      
+      .led-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--neon-green);
+        box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+        animation: pulse-led 2s ease-in-out infinite;
+      }
+      
+      @keyframes pulse-led {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+      
+      .waveform-bar {
+        animation: waveform 0.8s ease-in-out infinite;
+      }
+      
+      @keyframes waveform {
+        0%, 100% { transform: scaleY(0.3); }
+        50% { transform: scaleY(1); }
+      }
+      
+      .sample-card {
+        background: linear-gradient(135deg, #141416 0%, #0d0d0f 100%);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .sample-card:hover {
+        border-color: var(--neon-green);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 40px rgba(57, 255, 20, 0.1);
+      }
+      
+      .knob {
+        background: conic-gradient(from 220deg, #2a2a2e, #3a3a3e, #2a2a2e);
+        border: 2px solid #3a3a3e;
+      }
+      
+      .vu-meter {
+        background: linear-gradient(to top, 
+          var(--neon-green) 0%, 
+          var(--neon-green) 60%, 
+          #FFD700 60%, 
+          #FFD700 80%, 
+          #FF4444 80%, 
+          #FF4444 100%
+        );
+      }
+      
+      .noise-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0.015;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+      
+      .slide-up {
+        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+      }
+      
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .stagger-1 { animation-delay: 0.1s; }
+      .stagger-2 { animation-delay: 0.2s; }
+      .stagger-3 { animation-delay: 0.3s; }
+      .stagger-4 { animation-delay: 0.4s; }
+      .stagger-5 { animation-delay: 0.5s; }
+      .stagger-6 { animation-delay: 0.6s; }
+      
+      .grid-pattern {
+        background-image: 
+          linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      
+      input:focus, select:focus {
+        outline: none;
+        border-color: var(--neon-green) !important;
+        box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.2);
+      }
+      
+      .play-button {
+        transition: all 0.2s ease;
+      }
+      
+      .play-button:hover {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 10px var(--neon-green));
+      }
+    </style>
+  </head>
+  <body>
+    <div class="noise-overlay"></div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
